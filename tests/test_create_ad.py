@@ -46,7 +46,7 @@ class TestCreateAdWithAuth:
 
         logged_in_driver.find_element(*PUBLISH_BUTTON).click()
 
-        wait.until(expected_conditions.url_to_be("https://qa-desk.education-services.ru/"))
+        wait.until(expected_conditions.url_to_be("SITE_URL"))
 
         logged_in_driver.execute_script("window.scrollTo(0, 0);")
         wait.until(expected_conditions.presence_of_element_located(PROFILE_BUTTON))

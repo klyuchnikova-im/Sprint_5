@@ -2,6 +2,7 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
+from constants import SITE_URL
 
 from locators import LOGIN_BUTTON, EMAIL_FIELD, PASSWORD_FIELD, SUBMIT_LOGIN_BUTTON, PROFILE_NAME
 
@@ -9,7 +10,7 @@ from locators import LOGIN_BUTTON, EMAIL_FIELD, PASSWORD_FIELD, SUBMIT_LOGIN_BUT
 @pytest.fixture
 def driver():
     driver = webdriver.Chrome()
-    driver.get("https://qa-desk.education-services.ru/")
+    driver.get(SITE_URL)
     yield driver
     driver.quit()
 
