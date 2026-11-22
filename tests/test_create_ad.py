@@ -24,9 +24,7 @@ class TestCreateAdWithoutAuth:
     def test_create_ad_without_auth(self, driver):
         driver.find_element(*PLACE_AD_BUTTON).click()
 
-        message = WebDriverWait(driver, 5).until(expected_conditions.visibility_of_element_located(LOGIN_REQUIRED_MESSAGE))
-
-        assert message.text == "Чтобы разместить объявление, авторизуйтесь"
+        assert WebDriverWait(driver, 5).until(expected_conditions.visibility_of_element_located(LOGIN_REQUIRED_MESSAGE)).text == "Чтобы разместить объявление, авторизуйтесь"
 
 class TestCreateAdWithAuth:
 
