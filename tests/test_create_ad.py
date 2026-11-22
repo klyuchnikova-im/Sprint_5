@@ -1,6 +1,7 @@
 import random
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
+from constants import SITE_URL
 
 from locators import (
     PLACE_AD_BUTTON,
@@ -46,7 +47,7 @@ class TestCreateAdWithAuth:
 
         logged_in_driver.find_element(*PUBLISH_BUTTON).click()
 
-        wait.until(expected_conditions.url_to_be("SITE_URL"))
+        wait.until(expected_conditions.url_to_be(SITE_URL))
 
         logged_in_driver.execute_script("window.scrollTo(0, 0);")
         wait.until(expected_conditions.presence_of_element_located(PROFILE_BUTTON))
