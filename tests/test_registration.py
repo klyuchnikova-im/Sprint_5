@@ -37,9 +37,9 @@ class TestRegistration:
         assert avatar.is_displayed()
         assert "User" in user_name.text
 
-class TestRegistrationInvalidEmail:
+class TestRegistrationInvalidEmailError:
 
-    def test_registration_invalid_email(self, driver):
+    def test_registration_invalid_email_error(self, driver):
         driver.find_element(*LOGIN_BUTTON).click()
 
         WebDriverWait(driver, 5).until(expected_conditions.element_to_be_clickable(NO_ACCOUNT_BUTTON)).click()
@@ -49,9 +49,21 @@ class TestRegistrationInvalidEmail:
         driver.find_element(*EMAIL_FIELD).send_keys(invalid_email)
         driver.find_element(*CREATE_ACCOUNT_BUTTON).click()
 
-        error = WebDriverWait(driver, 5).until(expected_conditions.visibility_of_element_located(EMAIL_ERROR))
+        assert "Ошибка" in WebDriverWait(driver, 5).until(expected_conditions.visibility_of_element_located(EMAIL_ERROR)).text
+        
+class TestRegistrationInvalidEmailFields:
 
-        assert "Ошибка" in error.text
+    def test_registration_invalid_email_fields(self, driver):
+        driver.find_element(*LOGIN_BUTTON).click()
+
+        WebDriverWait(driver, 5).until(expected_conditions.element_to_be_clickable(NO_ACCOUNT_BUTTON)).click()
+
+        invalid_email = f"user{random.randint(10000, 99999)}@mailcom"
+
+        driver.find_element(*EMAIL_FIELD).send_keys(invalid_email)
+        driver.find_element(*CREATE_ACCOUNT_BUTTON).click()
+        
+        WebDriverWait(driver, 5).until(expected_conditions.visibility_of_element_located(EMAIL_ERROR))
 
         email_field = driver.find_element(*EMAIL_FIELD)
         password_field = driver.find_element(*PASSWORD_FIELD)
@@ -65,23 +77,33 @@ class TestRegistrationInvalidEmail:
         assert "255, 105, 114" in password_parent.value_of_css_property("border-color")
         assert "255, 105, 114" in confirm_password_parent.value_of_css_property("border-color")
 
-class TestRegistrationExistingEmail:
+class TestRegistrationExistingEmailError:
 
-    def test_registration_existing_email(self, driver):
+    def test_registration_existing_email_error(self, driver):
         driver.find_element(*LOGIN_BUTTON).click()
 
-        WebDriverWait(driver, 5).until(
-            expected_conditions.element_to_be_clickable(NO_ACCOUNT_BUTTON)
-        ).click()
+        WebDriverWait(driver, 5).until(expected_conditions.element_to_be_clickable(NO_ACCOUNT_BUTTON)).click()
 
         driver.find_element(*EMAIL_FIELD).send_keys("imkliuchi@mail.com")
         driver.find_element(*PASSWORD_FIELD).send_keys("test1234")
         driver.find_element(*CONFIRM_PASSWORD_FIELD).send_keys("test1234")
         driver.find_element(*CREATE_ACCOUNT_BUTTON).click()
 
-        error = WebDriverWait(driver, 5).until(expected_conditions.visibility_of_element_located(EMAIL_ERROR))
+        assert "Ошибка" in WebDriverWait(driver, 5).until(expected_conditions.visibility_of_element_located(EMAIL_ERROR)).text
 
-        assert "Ошибка" in error.text
+class TestRegistrationExistingEmailFields:
+
+    def test_registration_existing_email_fields(self, driver):
+        driver.find_element(*LOGIN_BUTTON).click()
+
+        WebDriverWait(driver, 5).until(expected_conditions.element_to_be_clickable(NO_ACCOUNT_BUTTON)).click()
+
+        driver.find_element(*EMAIL_FIELD).send_keys("imkliuchi@mail.com")
+        driver.find_element(*PASSWORD_FIELD).send_keys("test1234")
+        driver.find_element(*CONFIRM_PASSWORD_FIELD).send_keys("test1234")
+        driver.find_element(*CREATE_ACCOUNT_BUTTON).click()
+        
+        WebDriverWait(driver, 5).until(expected_conditions.visibility_of_element_located(EMAIL_ERROR))
 
         email_field = driver.find_element(*EMAIL_FIELD)
         password_field = driver.find_element(*PASSWORD_FIELD)
